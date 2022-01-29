@@ -1,0 +1,23 @@
+{
+    "manifest_version": 3,
+    "name": "Scrapper",
+    "version": "1.0.0",
+    "description":"Scrapper facebook",
+    "background": {
+        "service_worker": "controlador/background.js",
+        "type":"module"
+    },
+    "action":{
+        "default_title": "Scrap"
+    },
+
+    "permissions": ["notifications", "activeTab", "scripting"],
+   
+    "commands":{
+        "scrap":{
+            "suggested_key":"Ctrl+Shift+Y",
+            "description":"Scrapper facebook"
+        }
+    }
+
+}
