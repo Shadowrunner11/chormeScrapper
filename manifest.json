@@ -18,12 +18,5 @@
             "suggested_key":"Ctrl+Shift+Y",
             "description":"Scrapper facebook"
         }
-    },
-    "content_scripts":[
-        {
-            "matches":["https://www.linkedin.com/in/jesicalogioco-safarigroup/"],
-            "js": ["test.js"]
-        }
-    ]
-
+    }
 }
