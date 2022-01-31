@@ -1,49 +1,34 @@
-class Person{
-    constructor(name, education, licences, experiencie){
-        this.name = name
-        this.education = education
-        this.licences =licences
-        this.experiencie = experiencie
+function injectedFunction () {
+
+    const sel = {
+        exp: "#experience-section .pv-entity__summary-info",
+        edu: "pv-entity__degree-info",
+        cert: "pv-certifications__summary-info"
     }
-}
 
-class EducationInfo{
-    constructor(place, title, duration){
-        this.place=place
-        this.title=title
-        this.duration=duration
-    }
-}
-
-class Licence{
-    constructor(title, place, start, vencimiento){
-        this.title =title
-        this.place =place
-        this.start=start
-        this.vencimiento=vencimiento
-    }
-}
-
-class ExperienceInfo{
-    constructor(cargo, place, duration){
-        this.cargo = cargo
-        this.place =place
-        this.duration = duration
-    }
-}
-
-
-export function injectedFunction (){
-    function getByClass(classN){ return Array.from(document.getElementsByClassName(classN))}
+    const getByClass = (className)=> Array.from(document.getElementsByClassName(className))
+    const getBySelector = (selectorName)=> Array.from(document.querySelectorAll(selectorName))
+    const getData = (vector)=>vector.map(e=>[...Array.from(e.children).map(a=>a?.textContent),e.nextElementSibling?.textContent]);
 
     [...getByClass("pv-profile-section__see-more-inline"),].forEach(e=>e.click())
-    let array =getByClass("pv-entity__school-name")
-    let[text] = Array.from(document.getElementsByTagName("h1"))
-    console.log([text.innerText, ...array.map(e=>e.innerText)])
 
-    const array2 = [text.innerText, ...array.map(e=>e.innerText)]
-    chrome.runtime.sendMessage(array2)
+    const nodes = getBySelector("div.pv-profile-section-pager").map(a=>Array.from(a.getElementsByTagName("a")).map(b=>b.textContent.replaceAll("  ", "").replaceAll("\n\n\n", ",").replaceAll("\n\n", "")))
+
+
+
+    const [experience, education, certifications]=[
+        getBySelector(sel.exp),
+        getByClass(sel.edu),
+        getByClass(sel.cert)].map(e=>getData(e))
+    
+    const[name] = Array.from(document.getElementsByTagName("h1"))
+
+    let persona = {name:name.textContent, education, certifications, experience}
+
+    console.log(persona)
+
+    chrome.runtime.sendMessage(persona)
 }
 
 
-
+injectedFunction()

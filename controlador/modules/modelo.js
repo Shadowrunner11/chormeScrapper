@@ -33,9 +33,9 @@ function getObjectStore(store_name, mode) {
     return tx.objectStore(store_name);
   }
 
-export function addPublication(name, education) {
+export function addPublication(person) {
     console.log("addPublication arguments:", arguments);
-    let obj = { name: name, education: education };
+    let obj = { name: person.name, education: person.education };
     
     let store = getObjectStore(DB_STORE_NAME, 'readwrite');
     let req;
